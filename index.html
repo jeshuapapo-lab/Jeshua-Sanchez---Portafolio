@@ -8,21 +8,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mensaje = trim($_POST["message"]);
 
     if (!empty($nombre) && !empty($mensaje) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $destinatario = "contacto@jeshuatech.com";
-        $asunto = "Nuevo mensaje de contacto de $nombre";
-        $contenido = "Nombre: $nombre\n";
-        $contenido .= "Email: $email\n\n";
-        $contenido .= "Mensaje:\n$mensaje\n";
+        // CORREO DESTINO (Cambiar por el real del hosting)
+        $destinatario = "contacto@jeshuatech.com"; 
+        $asunto = "🚀 Nuevo Mensaje de Portafolio: $nombre";
         
-        $cabeceras = "From: $email";
+        $cuerpo = "Has recibido un nuevo mensaje desde tu sitio web:\n\n";
+        $cuerpo .= "------------------------------------------\n";
+        $cuerpo .= "Nombre: $nombre\n";
+        $cuerpo .= "Email: $email\n";
+        $cuerpo .= "Fecha: " . date("d/m/Y H:i:s") . "\n";
+        $cuerpo .= "------------------------------------------\n\n";
+        $cuerpo .= "Mensaje:\n$mensaje\n\n";
+        $cuerpo .= "------------------------------------------\n";
+        
+        $headers = "From: Portafolio <no-reply@jeshuatech.com>\r\n";
+        $headers .= "Reply-To: $email\r\n";
+        $headers .= "X-Mailer: PHP/" . phpversion();
 
-        if (mail($destinatario, $asunto, $contenido, $cabeceras)) {
+        if (mail($destinatario, $asunto, $cuerpo, $headers)) {
             $success = true;
+            $msg_status = "¡Mensaje enviado con éxito! Me pondré en contacto contigo pronto.";
         } else {
             $success = false;
+            $msg_status = "Error del servidor al enviar el correo. Por favor, usa el enlace de WhatsApp.";
         }
     } else {
         $success = false;
+        $msg_status = "Por favor, completa todos los campos correctamente.";
     }
 }
 ?>
@@ -228,30 +240,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div>
                 <div class="relative" data-aos="fade-left">
-                    <div class="relative z-10 rounded-3xl overflow-hidden border-4 border-emerald-500/20 shadow-2xl animate-float">
-                        <img src="assets/profile.png" alt="Jeshua Sánchez" class="w-full h-auto object-cover transform hover:scale-110 transition-transform duration-700">
-                    </div>
-                    <!-- Stats / Floating elements con rotación -->
-                    <div class="absolute -bottom-6 -left-6 glass p-6 rounded-2xl border border-white/10 shadow-xl z-20 hover-glow transition-all" data-aos="zoom-in" data-aos-delay="400">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center animate-rotate-slow">
-                                <i class="fas fa-cog text-emerald-500"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs text-gray-400">Proyectos</p>
-                                <p class="font-bold uppercase tracking-tighter">Impacto Real</p>
-                            </div>
+                    <!-- Tech Core Replacement for Photo -->
+                    <div class="relative w-full aspect-square flex items-center justify-center">
+                        <!-- Outer Rotating Ring -->
+                        <div class="absolute w-full h-full border-2 border-dashed border-emerald-500/20 rounded-full animate-rotate-slow"></div>
+                        <!-- Middle Rotating Ring (Reverse) -->
+                        <div class="absolute w-[80%] h-[80%] border-2 border-emerald-500/40 rounded-full animate-rotate-slow" style="animation-direction: reverse; animation-duration: 15s;"></div>
+                        <!-- Inner Glowing Core -->
+                        <div class="relative w-[60%] h-[60%] glass rounded-full flex items-center justify-center animate-pulse shadow-[0_0_50px_rgba(16,185,129,0.3)] border-emerald-500/50 overflow-hidden group">
+                            <div class="absolute inset-0 bg-gradient-to-tr from-emerald-500/20 to-blue-500/20 group-hover:opacity-100 transition-opacity"></div>
+                            <i class="fas fa-microchip text-7xl md:text-9xl text-emerald-500 animate-float"></i>
                         </div>
-                    </div>
-                    <div class="absolute -top-6 -right-6 glass p-6 rounded-2xl border border-white/10 shadow-xl z-20 hover-glow transition-all" data-aos="zoom-in" data-aos-delay="600">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center animate-rotate-slow" style="animation-direction: reverse;">
-                                <i class="fas fa-atom text-blue-500"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs text-gray-400">Especialista</p>
-                                <p class="font-bold uppercase tracking-tighter">I.A. & Redes</p>
-                            </div>
+                        
+                        <!-- Floating Tech Nodes -->
+                        <div class="absolute top-0 right-0 glass p-4 rounded-xl border border-white/10 animate-float" style="animation-delay: 1s;">
+                            <i class="fas fa-brain text-emerald-400"></i>
+                        </div>
+                        <div class="absolute bottom-10 left-0 glass p-4 rounded-xl border border-white/10 animate-float" style="animation-delay: 2s;">
+                            <i class="fas fa-code text-blue-400"></i>
+                        </div>
+                        <div class="absolute top-1/2 -right-4 glass p-4 rounded-xl border border-white/10 animate-float" style="animation-delay: 3s;">
+                            <i class="fas fa-network-wired text-purple-400"></i>
                         </div>
                     </div>
                 </div>
@@ -506,12 +515,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="glass p-8 md:p-12 rounded-3xl border border-white/10" data-aos="fade-left">
                     <?php if(isset($success) && $success): ?>
-                        <div class="bg-emerald-500/20 border border-emerald-500 text-emerald-500 p-4 rounded-xl mb-6">
-                            ¡Mensaje enviado con éxito! Me pondré en contacto pronto.
+                        <div class="bg-emerald-500/20 border border-emerald-500 text-emerald-500 p-4 rounded-xl mb-6 animate-pulse">
+                            <i class="fas fa-check-circle mr-2"></i> <?php echo $msg_status; ?>
                         </div>
                     <?php elseif(isset($success) && !$success): ?>
                         <div class="bg-red-500/20 border border-red-500 text-red-500 p-4 rounded-xl mb-6">
-                            Hubo un error al enviar el mensaje. Por favor intenta de nuevo.
+                            <i class="fas fa-exclamation-circle mr-2"></i> <?php echo $msg_status; ?>
                         </div>
                     <?php endif; ?>
 
