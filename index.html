@@ -1,0 +1,523 @@
+<?php
+/**
+ * Lógica de contacto para hosting tradicional
+ */
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nombre = strip_tags(trim($_POST["name"]));
+    $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
+    $mensaje = trim($_POST["message"]);
+
+    if (!empty($nombre) && !empty($mensaje) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $destinatario = "contacto@jeshuatech.com";
+        $asunto = "Nuevo mensaje de contacto de $nombre";
+        $contenido = "Nombre: $nombre\n";
+        $contenido .= "Email: $email\n\n";
+        $contenido .= "Mensaje:\n$mensaje\n";
+        
+        $cabeceras = "From: $email";
+
+        if (mail($destinatario, $asunto, $contenido, $cabeceras)) {
+            $success = true;
+        } else {
+            $success = false;
+        }
+    } else {
+        $success = false;
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeshua Sánchez | Portafolio Profesional</title>
+    <meta name="description" content="Técnico en informática especializado en desarrollo tecnológico, redes y automatización digital.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        slate: {
+                            900: '#0F172A',
+                            800: '#1E293B',
+                        },
+                        emerald: {
+                            500: '#10B981',
+                            400: '#34D399',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0F172A;
+            color: #F8FAFC;
+        }
+        .glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .text-gradient {
+            background: linear-gradient(to right, #10B981, #34D399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .btn-primary {
+            background: linear-gradient(to right, #10B981, #059669);
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.4);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased overflow-x-hidden">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 w-full z-50 glass">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-emerald-500 font-bold text-xl tracking-tighter">JS<span class="text-white">.TECH</span></span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="hover:text-emerald-500 px-3 py-2 rounded-md text-sm font-medium transition-colors">Inicio</a>
+                        <a href="#research" class="hover:text-emerald-500 px-3 py-2 rounded-md text-sm font-medium transition-colors">Investigación</a>
+                        <a href="#skills" class="hover:text-emerald-500 px-3 py-2 rounded-md text-sm font-medium transition-colors">Habilidades</a>
+                        <a href="#projects" class="hover:text-emerald-500 px-3 py-2 rounded-md text-sm font-medium transition-colors">Proyectos</a>
+                        <a href="#contact" class="btn-primary text-white px-5 py-2 rounded-full text-sm font-bold transition-all">Contacto</a>
+                    </div>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-300 hover:text-white">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass absolute w-full px-4 py-4 space-y-4">
+            <a href="#home" class="block hover:text-emerald-500 transition-colors">Inicio</a>
+            <a href="#research" class="block hover:text-emerald-500 transition-colors">Investigación</a>
+            <a href="#skills" class="block hover:text-emerald-500 transition-colors">Habilidades</a>
+            <a href="#projects" class="block hover:text-emerald-500 transition-colors">Proyectos</a>
+            <a href="#contact" class="block text-emerald-500 font-bold">Contacto</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center pt-20">
+        <div class="absolute inset-0 z-0 overflow-hidden">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid md:grid-rows-1 md:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right">
+                    <h2 class="text-emerald-500 font-bold tracking-widest uppercase text-sm mb-4">Técnico en Informática</h2>
+                    <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
+                        Soy <span class="text-gradient">Jeshua Sánchez</span>
+                    </h1>
+                    <p class="text-xl text-gray-400 mb-8 max-w-lg leading-relaxed">
+                        “Tecnología, creatividad e innovación aplicadas a soluciones reales.”
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#projects" class="btn-primary text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg">
+                            Ver Proyectos
+                        </a>
+                        <a href="#contact" class="glass text-white px-8 py-4 rounded-xl font-bold text-lg border border-white/10 hover:bg-white/5 transition-all">
+                            Contactar
+                        </a>
+                    </div>
+                </div>
+                <div class="relative" data-aos="fade-left">
+                    <div class="relative z-10 rounded-3xl overflow-hidden border-4 border-emerald-500/20 shadow-2xl">
+                        <img src="assets/profile.png" alt="Jeshua Sánchez" class="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700">
+                    </div>
+                    <!-- Stats / Floating elements -->
+                    <div class="absolute -bottom-6 -left-6 glass p-6 rounded-2xl border border-white/10 shadow-xl" data-aos="zoom-in" data-aos-delay="400">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center">
+                                <i class="fas fa-code text-emerald-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-400">Proyectos</p>
+                                <p class="font-bold">Informáticos</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -top-6 -right-6 glass p-6 rounded-2xl border border-white/10 shadow-xl" data-aos="zoom-in" data-aos-delay="600">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center">
+                                <i class="fas fa-network-wired text-blue-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-400">Especialista en</p>
+                                <p class="font-bold">Redes & IA</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research Section (Diferenciador) -->
+    <section id="research" class="py-24 bg-slate-800/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-emerald-400 font-bold uppercase tracking-widest text-sm mb-2">Investigación y Desarrollo</h2>
+                <h3 class="text-4xl font-bold">Rigor Académico & Técnico</h3>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass p-8 rounded-3xl hover:border-emerald-500/50 transition-all group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 bg-emerald-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-file-alt text-2xl text-emerald-500"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-4">Investigación Académica</h4>
+                    <p class="text-gray-400 leading-relaxed">
+                        Desarrollo de investigaciones técnicas bajo normas APA, con enfoque en la documentación precisa de procesos tecnológicos complejos.
+                    </p>
+                </div>
+                <div class="glass p-8 rounded-3xl hover:border-emerald-500/50 transition-all group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-project-diagram text-2xl text-blue-500"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-4">Arquitectura de Redes</h4>
+                    <p class="text-gray-400 leading-relaxed">
+                        Simulación y diseño de infraestructuras de red avanzadas, orientadas a optimizar la conectividad y productividad empresarial.
+                    </p>
+                </div>
+                <div class="glass p-8 rounded-3xl hover:border-emerald-500/50 transition-all group" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fas fa-microchip text-2xl text-purple-500"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-4">Soluciones IoT</h4>
+                    <p class="text-gray-400 leading-relaxed">
+                        Implementación de sistemas de automatización e Internet de las Cosas para mejorar el aprendizaje y procesos digitales modernos.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Bento Grid -->
+    <section id="skills" class="py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-emerald-400 font-bold uppercase tracking-widest text-sm mb-2">Arsenal Técnico</h2>
+                <h3 class="text-4xl font-bold">Hard Skills</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 h-full">
+                <!-- IA & Automation -->
+                <div class="md:col-span-2 md:row-span-1 glass p-8 rounded-3xl" data-aos="zoom-in">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="p-3 bg-emerald-500/10 rounded-xl text-emerald-500">
+                            <i class="fas fa-robot text-2xl"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold">IA & Automatización</h4>
+                    </div>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-500 text-xs"></i> Prompt Engineering Avanzado</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-500 text-xs"></i> IA Generativa para Programación</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check text-emerald-500 text-xs"></i> Automatización de Flujos Digitales</li>
+                    </ul>
+                </div>
+
+                <!-- Networking -->
+                <div class="md:col-span-2 md:row-span-2 glass p-8 rounded-3xl flex flex-col justify-between" data-aos="zoom-in" data-aos-delay="200">
+                    <div>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="p-3 bg-blue-500/10 rounded-xl text-blue-500">
+                                <i class="fas fa-network-wired text-2xl"></i>
+                            </div>
+                            <h4 class="text-2xl font-bold">Redes e Infraestructura</h4>
+                        </div>
+                        <p class="text-gray-400 mb-6">Diseño y configuración de infraestructuras escalables utilizando estándares industriales.</p>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="px-3 py-1 bg-slate-800 rounded-full text-xs border border-white/5">Cisco Packet Tracer</span>
+                            <span class="px-3 py-1 bg-slate-800 rounded-full text-xs border border-white/5">VLANs / DHCP / OSPF</span>
+                            <span class="px-3 py-1 bg-slate-800 rounded-full text-xs border border-white/5">Servidores locales</span>
+                            <span class="px-3 py-1 bg-slate-800 rounded-full text-xs border border-white/5">Cableado Estructurado</span>
+                        </div>
+                    </div>
+                    <img src="assets/networking.png" alt="Networking" class="rounded-xl opacity-60 grayscale hover:grayscale-0 transition-all">
+                </div>
+
+                <!-- Software Development -->
+                <div class="md:col-span-2 md:row-span-1 glass p-8 rounded-3xl" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="p-3 bg-purple-500/10 rounded-xl text-purple-500">
+                            <i class="fas fa-code text-2xl"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold">Desarrollo de Software</h4>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="flex items-center gap-3">
+                            <i class="fab fa-html5 text-orange-500 text-xl"></i>
+                            <span class="text-sm font-semibold">HTML5/CSS3</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fab fa-js text-yellow-400 text-xl"></i>
+                            <span class="text-sm font-semibold">JavaScript</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fab fa-php text-blue-400 text-xl"></i>
+                            <span class="text-sm font-semibold">PHP / MySQL</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fab fa-python text-blue-500 text-xl"></i>
+                            <span class="text-sm font-semibold">Python / Java</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Projects -->
+    <section id="projects" class="py-24 bg-slate-800/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6" data-aos="fade-up">
+                <div>
+                    <h2 class="text-emerald-400 font-bold uppercase tracking-widest text-sm mb-2">Portfolio</h2>
+                    <h3 class="text-4xl font-bold">Proyectos Destacados</h3>
+                </div>
+                <a href="https://github.com/JeshuaSanchez" target="_blank" class="text-emerald-500 hover:text-emerald-400 font-bold flex items-center gap-2 transition-all">
+                    Ver todo en GitHub <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Proyecto 1 -->
+                <div class="group relative bg-slate-800 rounded-3xl overflow-hidden border border-white/5 hover:border-emerald-500/50 transition-all shadow-xl" data-aos="fade-up">
+                    <div class="h-56 overflow-hidden">
+                        <img src="assets/eurocopa.png" alt="Eurocopa 2024" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-8">
+                        <div class="flex gap-2 mb-4">
+                            <span class="text-[10px] px-2 py-1 bg-emerald-500/20 text-emerald-500 rounded-md font-bold uppercase">HTML5</span>
+                            <span class="text-[10px] px-2 py-1 bg-blue-500/20 text-blue-500 rounded-md font-bold uppercase">CSS3</span>
+                        </div>
+                        <h4 class="text-xl font-bold mb-3">Plataforma Eurocopa 2024</h4>
+                        <p class="text-gray-400 text-sm mb-6">Página web informativa con diseño responsivo y estilo visual moderno para el seguimiento del torneo.</p>
+                        <a href="#" class="flex items-center gap-2 text-sm font-bold text-white hover:text-emerald-500 transition-colors">
+                            Ver Detalles <i class="fas fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Proyecto 2 -->
+                <div class="group relative bg-slate-800 rounded-3xl overflow-hidden border border-white/5 hover:border-emerald-500/50 transition-all shadow-xl" data-aos="fade-up" data-aos-delay="100">
+                    <div class="h-56 overflow-hidden">
+                        <img src="assets/networking.png" alt="Redes" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    </div>
+                    <div class="p-8">
+                        <div class="flex gap-2 mb-4">
+                            <span class="text-[10px] px-2 py-1 bg-blue-500/20 text-blue-500 rounded-md font-bold uppercase">Cisco</span>
+                            <span class="text-[10px] px-2 py-1 bg-purple-500/20 text-purple-500 rounded-md font-bold uppercase">IoT</span>
+                        </div>
+                        <h4 class="text-xl font-bold mb-3">Infraestructura Multiservicio</h4>
+                        <p class="text-gray-400 text-sm mb-6">Diseño de red compleja con VLANs, servidores DNS/DHCP e integración de dispositivos IoT.</p>
+                        <a href="#" class="flex items-center gap-2 text-sm font-bold text-white hover:text-emerald-500 transition-colors">
+                            Ver Detalles <i class="fas fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Proyecto 3 -->
+                <div class="group relative bg-slate-800 rounded-3xl overflow-hidden border border-white/5 hover:border-emerald-500/50 transition-all shadow-xl" data-aos="fade-up" data-aos-delay="200">
+                    <div class="h-56 flex items-center justify-center bg-slate-900">
+                        <i class="fas fa-brain text-6xl text-emerald-500/20"></i>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex gap-2 mb-4">
+                            <span class="text-[10px] px-2 py-1 bg-emerald-500/20 text-emerald-500 rounded-md font-bold uppercase">AI</span>
+                            <span class="text-[10px] px-2 py-1 bg-orange-500/20 text-orange-500 rounded-md font-bold uppercase">Automation</span>
+                        </div>
+                        <h4 class="text-xl font-bold mb-3">Automatización e IA</h4>
+                        <p class="text-gray-400 text-sm mb-6">Implementación de herramientas de IA para optimización de tareas y generación de contenido técnico.</p>
+                        <a href="#" class="flex items-center gap-2 text-sm font-bold text-white hover:text-emerald-500 transition-colors">
+                            Ver Detalles <i class="fas fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications -->
+    <section class="py-20 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center gap-12 opacity-50 grayscale hover:grayscale-0 transition-all duration-700">
+                <div class="flex items-center gap-2">
+                    <i class="fab fa-aws text-3xl"></i>
+                    <span class="font-bold">AWS</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fab fa-google text-3xl"></i>
+                    <span class="font-bold">Google Cloud</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fab fa-ibm text-3xl"></i>
+                    <span class="font-bold">IBM</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-graduation-cap text-3xl"></i>
+                    <span class="font-bold">Cisco Academy</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div data-aos="fade-right">
+                    <h2 class="text-emerald-400 font-bold uppercase tracking-widest text-sm mb-2">Contacto</h2>
+                    <h3 class="text-5xl font-bold mb-8">¿Tienes un proyecto en <span class="text-gradient">mente?</span></h3>
+                    <p class="text-gray-400 text-lg mb-12">
+                        Estoy listo para ayudarte a transformar tus ideas en soluciones tecnológicas reales. Contáctame y hablemos de cómo potenciar tu visión.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center text-emerald-500">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 font-bold uppercase">Email</p>
+                                <p class="font-bold">contacto@jeshuatech.com</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center text-emerald-500">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 font-bold uppercase">WhatsApp Business</p>
+                                <p class="font-bold">+593 [Tu Número]</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass p-8 md:p-12 rounded-3xl border border-white/10" data-aos="fade-left">
+                    <?php if(isset($success) && $success): ?>
+                        <div class="bg-emerald-500/20 border border-emerald-500 text-emerald-500 p-4 rounded-xl mb-6">
+                            ¡Mensaje enviado con éxito! Me pondré en contacto pronto.
+                        </div>
+                    <?php elseif(isset($success) && !$success): ?>
+                        <div class="bg-red-500/20 border border-red-500 text-red-500 p-4 rounded-xl mb-6">
+                            Hubo un error al enviar el mensaje. Por favor intenta de nuevo.
+                        </div>
+                    <?php endif; ?>
+
+                    <form action="#contact" method="POST" class="space-y-6">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-sm font-bold text-gray-400">Nombre</label>
+                                <input type="text" name="name" required class="w-full bg-slate-800 border border-white/5 rounded-xl px-4 py-3 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="Tu nombre">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-bold text-gray-400">Email</label>
+                                <input type="email" name="email" required class="w-full bg-slate-800 border border-white/5 rounded-xl px-4 py-3 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="tu@email.com">
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-gray-400">Mensaje</label>
+                            <textarea name="message" rows="4" required class="w-full bg-slate-800 border border-white/5 rounded-xl px-4 py-3 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="¿En qué puedo ayudarte?"></textarea>
+                        </div>
+                        <button type="submit" class="w-full btn-primary text-white py-4 rounded-xl font-bold text-lg shadow-lg">
+                            Enviar Mensaje
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 glass border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div>
+                    <span class="text-emerald-500 font-bold text-2xl tracking-tighter">JS<span class="text-white">.TECH</span></span>
+                    <p class="text-gray-500 text-sm mt-2">&copy; 2026 Jeshua Sánchez. Todos los derechos reservados.</p>
+                </div>
+                <div class="flex gap-6">
+                    <a href="https://github.com/JeshuaSanchez" target="_blank" class="text-2xl text-gray-400 hover:text-white transition-colors"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com/in/jeshua-sanchez" target="_blank" class="text-2xl text-gray-400 hover:text-white transition-colors"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="text-2xl text-gray-400 hover:text-white transition-colors"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Inicializar animaciones
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
+        // Menú móvil
+        const menuBtn = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Cerrar menú al hacer click en un link
+        const navLinks = mobileMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Efecto scroll en navbar
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('py-2');
+            } else {
+                nav.classList.remove('py-2');
+            }
+        });
+    </script>
+</body>
+</html>
